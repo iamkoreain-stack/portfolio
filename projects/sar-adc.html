@@ -12,28 +12,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.7.0/skins/default.min.js"></script>
 <style>
   :root{
-    --bg:#09090b;
-    --panel:#18181b;
-    --panel-raised:#1f1f23;
-    --border:#27272a;
-    --border-soft:#1c1c1f;
-    --text:#f4f4f5;
-    --text-dim:#a1a1aa;
-    --muted:#6b6b71;
+    --bg:#f4f4f5;
+    --panel:#ffffff;
+    --panel-raised:#fafafa;
+    --border:#e4e4e7;
+    --border-soft:#ededef;
+    --text:#18181b;
+    --text-dim:#52525b;
+    --muted:#8f8f96;
 
-    --analog:#38bdf8;
-    --analog-soft:rgba(56,189,248,.12);
-    --digital:#34d399;
-    --digital-soft:rgba(52,211,153,.12);
-    --power:#f59e0b;
-    --power-soft:rgba(245,158,11,.12);
-    --error:#f43f5e;
+    --analog:#0284c7;
+    --analog-soft:rgba(2,132,199,.08);
+    --digital:#059669;
+    --digital-soft:rgba(5,150,105,.08);
+    --power:#b45309;
+    --power-soft:rgba(180,83,9,.08);
+    --error:#be123c;
 
     --font-body:'Pretendard Variable','Pretendard',Inter,system-ui,sans-serif;
     --font-mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
   }
   *{box-sizing:border-box;}
-  html{color-scheme:dark;}
+  html{color-scheme:light;}
   body{
     margin:0; background:var(--bg); color:var(--text);
     font-family:var(--font-body); line-height:1.65;
@@ -83,8 +83,8 @@
     border:1px solid var(--border); border-radius:5px; padding:6px 11px;
     color:var(--text-dim);
   }
-  .badge.on{border-color:rgba(52,211,153,.35); color:var(--digital); background:var(--digital-soft);}
-  .badge.caution{border-color:rgba(245,158,11,.35); color:var(--power); background:var(--power-soft);}
+  .badge.on{border-color:rgba(5,150,105,.35); color:var(--digital); background:var(--digital-soft);}
+  .badge.caution{border-color:rgba(180,83,9,.35); color:var(--power); background:var(--power-soft);}
   .badge .dot{width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0;}
 
   /* ---------- sections ---------- */
@@ -116,7 +116,7 @@
 
   /* silicon status callout */
   .callout{
-    border:1px solid rgba(245,158,11,.3); background:var(--power-soft);
+    border:1px solid rgba(180,83,9,.25); background:var(--power-soft);
     border-radius:6px; padding:18px 20px; margin-top:22px;
   }
   .callout .callout-head{
@@ -142,10 +142,10 @@
     align-self:center; color:var(--muted); font-family:var(--font-mono);
     font-size:.85rem; padding-block:4px;
   }
-  .flow-step.decision{border-color:rgba(56,189,248,.35);}
+  .flow-step.decision{border-color:rgba(2,132,199,.35);}
   .flow-step.decision .tag{color:var(--analog);}
   .flow-step.result .tag{color:var(--digital);}
-  .flow-step.result{border-color:rgba(52,211,153,.35);}
+  .flow-step.result{border-color:rgba(5,150,105,.35);}
 
   /* calibration table */
   .cal-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:20px;}
@@ -163,7 +163,7 @@
   }
   .diagram-panel::before{
     content:''; position:absolute; inset:0; z-index:0; border-radius:6px;
-    background-image:radial-gradient(rgba(244,244,245,.08) 1px, transparent 1px);
+    background-image:radial-gradient(rgba(24,24,27,.08) 1px, transparent 1px);
     background-size:16px 16px;
   }
   .diagram-panel > *{position:relative; z-index:1;}
