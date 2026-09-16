@@ -123,6 +123,12 @@
     background:var(--accent-soft); border:1px solid var(--accent-dim);
     border-radius:4px; padding:3px 8px; font-variant-numeric:tabular-nums;
   }
+  .detail-link{
+    display:inline-block; margin-top:14px; font-family:var(--font-mono);
+    font-size:.8rem; color:var(--text-dim); text-decoration:none;
+    border-bottom:1px solid var(--line); transition:color .15s, border-color .15s;
+  }
+  .detail-link:hover{color:var(--accent); border-color:var(--accent-dim);}
 
   /* ---------- skills ---------- */
   .skill-groups{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:24px 28px;}
@@ -224,6 +230,7 @@
           </div>
           <p>DB하이텍 0.18µm 공정에서 asynchronous SAR ADC를 설계하고 full-custom layout으로 테이프아웃했습니다. Post-layout 시뮬레이션 기준 SNDR 56.4dB, ENOB 9.0을 확인했습니다. 오실로스코프·breadboard·STM32 DAC로 검증 환경을 직접 구성해 디버깅했습니다.</p>
           <ul class="specs"><li>10-bit</li><li>20MS/s</li><li>SNDR 56.4dB</li><li>Tape-out</li></ul>
+          <a class="detail-link" href="projects/sar-adc.html">Datasheet 보기 &rarr;</a>
         </article>
 
         <article class="project">
