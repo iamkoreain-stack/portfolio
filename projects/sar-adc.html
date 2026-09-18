@@ -75,6 +75,25 @@
   .spec-cell .v{display:block; margin-top:4px; font-family:var(--font-mono); font-size:1.05rem; font-weight:600; color:var(--text);}
   .spec-cell .v .unit{font-size:.62em; color:var(--text-dim); font-weight:400;}
 
+  /* ---------- hero visual ---------- */
+  .hero-visual{
+    margin-top:24px; position:relative; border:1px solid var(--border);
+    background:var(--panel); border-radius:6px; overflow:hidden;
+  }
+  .hero-visual::before{
+    content:''; position:absolute; inset:0; z-index:0;
+    background-image:radial-gradient(rgba(24,24,27,.08) 1px, transparent 1px);
+    background-size:16px 16px;
+  }
+  .hero-visual svg{position:relative; z-index:1; width:100%; height:auto; display:block;}
+  .hero-visual .placeholder-caption{
+    position:relative; z-index:1; margin:0; padding:10px 16px;
+    border-top:1px solid var(--border); background:var(--panel-raised);
+    font-family:var(--font-mono); font-size:.75rem; color:var(--power);
+    display:flex; align-items:center; gap:7px;
+  }
+  .hero-visual .placeholder-caption .dot{width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0;}
+
   /* ---------- verification badges ---------- */
   .verify-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
   .badge{
@@ -114,16 +133,21 @@
   .spec-table td.note{color:var(--text-dim); font-size:.85rem;}
   .spec-table tr:last-child td{border-bottom:none;}
 
-  /* silicon status callout */
+  /* silicon status callout (collapsible) */
   .callout{
     border:1px solid rgba(180,83,9,.25); background:var(--power-soft);
-    border-radius:6px; padding:18px 20px; margin-top:22px;
+    border-radius:6px; padding:14px 20px; margin-top:22px;
   }
+  .callout[open]{padding-bottom:18px;}
   .callout .callout-head{
     display:flex; align-items:center; gap:8px; font-family:var(--font-mono);
     font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--power);
-    margin-bottom:8px;
+    cursor:pointer; list-style:none; padding-block:4px;
   }
+  .callout .callout-head::-webkit-details-marker{display:none;}
+  .callout .callout-head::before{content:'▸'; font-size:.85em; transition:transform .15s ease;}
+  .callout[open] .callout-head::before{transform:rotate(90deg);}
+  .callout .callout-body{margin-top:10px;}
   .callout p{color:var(--text-dim); font-size:.9rem; max-width:64ch;}
   .callout p + p{margin-top:8px;}
 
@@ -234,6 +258,35 @@
       <span class="badge on"><span class="dot"></span>Full-custom Layout &amp; Tape-out</span>
       <span class="badge caution"><span class="dot"></span>Silicon Measurement Incomplete</span>
     </div>
+
+    <!-- TODO: 실제 Cadence Virtuoso 스키매틱/레이아웃 캡처로 교체.
+         교체 방법: 이 <div class="hero-visual"> 안의 <svg>...</svg> 전체를
+         <img src="실제파일경로" alt="10-bit SAR ADC schematic"> 한 줄로 바꾸면 됨.
+         placeholder-caption 문단도 함께 지울 것. -->
+    <div class="hero-visual">
+      <svg viewBox="0 0 920 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic placeholder">
+        <g opacity=".55">
+          <rect x="40" y="30" width="54" height="30" rx="2" fill="var(--analog-soft)" stroke="var(--analog)" stroke-width="1"/>
+          <rect x="104" y="30" width="34" height="30" rx="2" fill="var(--analog-soft)" stroke="var(--analog)" stroke-width="1"/>
+          <rect x="148" y="30" width="70" height="30" rx="2" fill="var(--digital-soft)" stroke="var(--digital)" stroke-width="1"/>
+          <rect x="228" y="30" width="30" height="30" rx="2" fill="var(--digital-soft)" stroke="var(--digital)" stroke-width="1"/>
+          <rect x="40" y="76" width="30" height="30" rx="2" fill="var(--power-soft)" stroke="var(--power)" stroke-width="1"/>
+          <rect x="78" y="76" width="60" height="30" rx="2" fill="var(--analog-soft)" stroke="var(--analog)" stroke-width="1"/>
+          <rect x="148" y="76" width="34" height="30" rx="2" fill="var(--digital-soft)" stroke="var(--digital)" stroke-width="1"/>
+          <rect x="192" y="76" width="66" height="30" rx="2" fill="var(--power-soft)" stroke="var(--power)" stroke-width="1"/>
+          <rect x="40" y="122" width="80" height="30" rx="2" fill="var(--digital-soft)" stroke="var(--digital)" stroke-width="1"/>
+          <rect x="130" y="122" width="30" height="30" rx="2" fill="var(--analog-soft)" stroke="var(--analog)" stroke-width="1"/>
+          <rect x="170" y="122" width="52" height="30" rx="2" fill="var(--analog-soft)" stroke="var(--analog)" stroke-width="1"/>
+
+          <path d="M760,30 H900 M760,50 H900 M760,70 H900 M760,90 H900 M760,110 H900 M760,130 H900" stroke="var(--border)" stroke-width="1"/>
+          <path d="M700,20 V160 M720,20 V160 M740,20 V160" stroke="var(--border)" stroke-width="1"/>
+
+          <path d="M94,45 H104 M138,45 H148 M218,45 H228 M70,91 H78 M138,91 H148 M182,91 H192 M120,137 H130 M160,137 H170" stroke="var(--muted)" stroke-width="1"/>
+        </g>
+        <text x="460" y="140" font-family="var(--font-mono)" font-size="34" font-weight="700" fill="var(--muted)" opacity=".35" text-anchor="middle" transform="rotate(-8 460 140)">PLACEHOLDER</text>
+      </svg>
+      <p class="placeholder-caption"><span class="dot"></span>실제 Cadence Virtuoso 스키매틱/레이아웃 캡처로 교체 예정 — 지금은 임시 목업</p>
+    </div>
   </header>
 
   <main>
@@ -258,11 +311,13 @@
         </tbody>
       </table>
 
-      <div class="callout">
-        <p class="callout-head">Silicon Verification Status</p>
-        <p>오실로스코프·breadboard·STM32 DAC·차동 amplifier로 측정 환경을 직접 구성해 칩 동작을 디버깅했다. 초기에는 일부 동작을 확인했으나 검증 도중 칩이 더 이상 동작하지 않았고, 고장 원인은 확정하지 못했다.</p>
-        <p>따라서 SNDR·ENOB 등 위 표의 수치는 <strong>post-layout 시뮬레이션 결과이며, 실리콘 최종 성능 실측은 완료하지 못했다.</strong></p>
-      </div>
+      <details class="callout">
+        <summary class="callout-head">Silicon Verification Status — Result context &amp; conditions</summary>
+        <div class="callout-body">
+          <p>오실로스코프·breadboard·STM32 DAC·차동 amplifier로 측정 환경을 직접 구성해 칩 동작을 디버깅했다. 초기에는 일부 동작을 확인했으나 검증 도중 칩이 더 이상 동작하지 않았고, 고장 원인은 확정하지 못했다.</p>
+          <p>따라서 SNDR·ENOB 등 위 표의 수치는 <strong>post-layout 시뮬레이션 결과이며, 실리콘 최종 성능 실측은 완료하지 못했다.</strong></p>
+        </div>
+      </details>
     </section>
 
     <section>
