@@ -14,9 +14,9 @@
     --text:#18181b;
     --text-dim:#52525b;
     --muted:#8f8f96;
-    --accent:#0d8a6c;
-    --accent-soft:rgba(13,138,108,.10);
-    --accent-dim:#8fc4b3;
+    --accent:#0284c7;
+    --accent-soft:rgba(2,132,199,.10);
+    --accent-dim:#38bdf8;
     --line:#e4e4e7;
     --line-soft:#ececee;
 
@@ -75,8 +75,8 @@
   .gh-link{
     margin-top:24px; display:inline-flex; align-items:center; gap:8px;
     font-family:var(--font-mono); font-size:.85rem; color:var(--text-dim);
-    text-decoration:none; border:1px solid var(--line); border-radius:6px;
-    padding:8px 14px; transition:border-color .15s, color .15s;
+    text-decoration:none; border:1px solid var(--line); border-radius:999px;
+    padding:8px 16px; transition:border-color .15s, color .15s;
   }
   .gh-link:hover{border-color:var(--accent-dim); color:var(--accent);}
   .gh-link svg{width:16px; height:16px; fill:currentColor; flex-shrink:0;}
@@ -137,7 +137,7 @@
   .project-linked:hover, .project-linked:focus-visible{
     transform:translateY(-3px);
     border-color:var(--accent-dim);
-    box-shadow:0 10px 24px -12px rgba(13,138,108,.35);
+    box-shadow:0 10px 24px -12px rgba(2,132,199,.35);
   }
   .project-linked:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
   .project-linked:hover .detail-link, .project-linked:focus-visible .detail-link{
@@ -198,7 +198,7 @@
       </div>
       <svg class="eye-diagram" viewBox="0 0 220 150" aria-hidden="true">
         <rect x="1" y="1" width="218" height="148" rx="4" fill="none" stroke="#d4d4d8" stroke-width="1"/>
-        <g fill="none" stroke="#0d8a6c" stroke-width="1.4">
+        <g fill="none" stroke="#0284c7" stroke-width="1.4">
           <path d="M4 20 C 60 20, 90 130, 146 130 S 216 20, 216 20" opacity=".28"/>
           <path d="M4 130 C 60 130, 90 20, 146 20 S 216 130, 216 130" opacity=".28"/>
           <path d="M4 40 C 60 40, 96 110, 146 110 S 216 40, 216 40" opacity=".5"/>
