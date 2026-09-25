@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Mouse Hardware Teardown · Side Project</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root{
+    --bg:#f4f4f5; --panel:#fff; --panel-soft:#fafafa;
+    --text:#18181b; --text-dim:#52525b; --muted:#8f8f96;
+    --accent:#0284c7; --accent-soft:rgba(2,132,199,.09);
+    --accent-dim:#38bdf8; --line:#e4e4e7; --line-soft:#ececee;
+    --font:'IBM Plex Sans KR','IBM Plex Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:light}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,p{margin:0} a{color:inherit}
+  .wrap{max-width:900px;margin:0 auto;padding-inline:24px}
+  .topnav{padding-block:16px;border-bottom:1px solid var(--line)}
+  .topnav a{font-family:var(--mono);font-size:.78rem;color:var(--text-dim);text-decoration:none}
+  .topnav a:hover{color:var(--accent)}
+  header{padding-block:38px 30px;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  h1{font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.2}
+  .sub{margin-top:10px;color:var(--text-dim);max-width:66ch}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-family:var(--mono);font-size:.72rem;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-dim);border-radius:4px;padding:4px 8px}
+  main{padding-block:8px 20px}
+  section{padding-block:38px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .section-head{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .section-head::after{content:'';height:1px;background:var(--line);flex:1}
+  .lede{color:var(--text-dim);max-width:68ch}
+  .figure{margin-top:20px;border:1px solid var(--line);background:var(--panel);border-radius:6px;overflow:hidden}
+  .figure svg{display:block;width:100%;height:auto}
+  .caption{padding:10px 14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--muted);background:var(--panel-soft)}
+  .chain{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:20px}
+  .node{flex:1 1 135px;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:12px 14px}
+  .node b{display:block;font-size:.88rem;margin-bottom:3px}
+  .node span{font-size:.78rem;color:var(--muted)}
+  .arrow{align-self:center;color:var(--muted);font-family:var(--mono)}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .card{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:17px 18px}
+  .card h3{font-size:.95rem}
+  .card p{margin-top:7px;font-size:.88rem;color:var(--text-dim)}
+  .fact{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-bottom:6px}
+  .note{margin-top:18px;border-left:3px solid var(--accent);padding:12px 14px;background:var(--accent-soft);font-size:.86rem;color:var(--text-dim)}
+  .todo{border:1px dashed var(--accent-dim);background:var(--accent-soft);border-radius:6px;padding:14px 16px;font-size:.85rem;color:var(--text-dim)}
+  footer{padding-block:32px 54px;text-align:center}
+  footer a{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-decoration:none}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.arrow{display:none}}
+</style>
+</head>
+<body>
+<nav class="topnav wrap"><a href="../">&larr; 전상혁 · 포트폴리오</a></nav>
+
+<div class="wrap">
+<header>
+  <p class="kicker">Side Project · Hardware / Teardown</p>
+  <h1>Mouse Hardware Teardown</h1>
+  <p class="sub">상용 마우스를 분해해 사용자가 느끼는 클릭·스크롤 입력이 내부 부품에서 어떻게 만들어지는지 확인하고, 주요 부품과 기구 구조를 정리했습니다.</p>
+  <div class="tags">
+    <span class="tag">Kailh 11 mm Encoder</span>
+    <span class="tag">Click Switch</span>
+    <span class="tag">Mechanical Structure</span>
+    <span class="tag">Teardown</span>
+  </div>
+</header>
+
+<main>
+<section>
+  <p class="section-head">Overview</p>
+  <p class="lede">마우스 상판을 분리한 뒤 scroll wheel, rotary encoder, 좌·우 클릭 스위치, side switch, PCB 고정부와 housing rib를 중심으로 관찰했습니다. 단순 분해보다 기계 입력과 전기 입력의 경계를 이해하는 데 초점을 맞췄습니다.</p>
+
+  <div class="figure">
+    <svg viewBox="0 0 900 430" role="img" aria-label="Mouse teardown structure illustration">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 L8 4 L0 8 Z" fill="#0284c7"/>
+        </marker>
+      </defs>
+      <rect width="900" height="430" fill="#fff"/>
+      <g fill="none" stroke="#d4d4d8" stroke-width="2">
+        <path d="M170 93 C255 42 445 40 575 88 C648 115 696 179 710 279 C610 335 300 350 172 297 C143 236 138 154 170 93Z" fill="#fafafa"/>
+        <path d="M190 120 C270 80 432 78 552 111 C608 129 648 177 661 250 C566 288 330 302 204 269 C180 223 176 164 190 120Z" fill="#f4f4f5"/>
+      </g>
+      <rect x="245" y="185" width="390" height="82" rx="8" fill="#f8fafc" stroke="#38bdf8" stroke-width="2"/>
+      <rect x="285" y="202" width="72" height="42" rx="5" fill="#fff" stroke="#0284c7"/>
+      <text x="321" y="219" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#18181b">LEFT</text>
+      <text x="321" y="235" text-anchor="middle" font-family="IBM Plex Mono" font-size="12" fill="#18181b">SWITCH</text>
+
+      <circle cx="450" cy="176" r="42" fill="#27272a"/>
+      <circle cx="450" cy="176" r="22" fill="#3f3f46"/>
+      <path d="M450 134 V218" stroke="#71717a" stroke-width="8"/>
+
+      <rect x="503" y="194" width="58" height="58" rx="5" fill="#e5e7eb" stroke="#52525b"/>
+      <circle cx="532" cy="223" r="12" fill="#ef4444"/>
+      <text x="532" y="270" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#52525b">11 mm</text>
+
+      <rect x="594" y="214" width="25" height="34" rx="3" fill="#fff" stroke="#0284c7"/>
+      <rect x="598" y="222" width="17" height="6" rx="2" fill="#71717a"/>
+      <rect x="598" y="234" width="17" height="6" rx="2" fill="#71717a"/>
+
+      <g stroke="#0284c7" stroke-width="1.7" fill="none" marker-end="url(#arr)">
+        <path d="M321 202 C282 166 250 148 212 139"/>
+        <path d="M450 134 C450 95 450 82 450 63"/>
+        <path d="M532 194 C560 155 589 136 628 126"/>
+        <path d="M607 214 C670 197 711 189 758 190"/>
+        <path d="M388 267 C360 315 322 334 275 349"/>
+      </g>
+
+      <g font-family="IBM Plex Mono" font-size="12" fill="#0284c7">
+        <text x="104" y="136">Left-click switch</text>
+        <text x="388" y="48">Scroll wheel</text>
+        <text x="632" y="122">Kailh 11 mm rotary encoder</text>
+        <text x="765" y="194">Side switches</text>
+        <text x="126" y="356">Main PCB / mounting points</text>
+      </g>
+    </svg>
+    <p class="caption">구조 설명용 단순화 도식 · 실제 분해 사진/인포그래픽 asset은 별도 교체 가능</p>
+  </div>
+</section>
+
+<section>
+  <p class="section-head">Input Path</p>
+  <p class="lede">관찰한 부품을 입력 경로 관점에서 정리하면 다음처럼 볼 수 있습니다.</p>
+  <div class="chain">
+    <div class="node"><b>Finger / Wheel</b><span>사용자 기계 입력</span></div><span class="arrow">&rarr;</span>
+    <div class="node"><b>Switch / Encoder</b><span>접점 또는 회전 검출</span></div><span class="arrow">&rarr;</span>
+    <div class="node"><b>PCB</b><span>전기 신호 전달</span></div><span class="arrow">&rarr;</span>
+    <div class="node"><b>Controller</b><span>버튼·스크롤 이벤트 처리</span></div>
+  </div>
+</section>
+
+<section>
+  <p class="section-head">Key Components</p>
+  <div class="grid">
+    <div class="card">
+      <p class="fact">SCROLL INPUT</p>
+      <h3>Kailh 11 mm Rotary Encoder</h3>
+      <p>스크롤 휠 축과 결합되어 회전 방향과 단계 정보를 전기적 펄스로 변환하는 부품입니다. 여기서 11 mm는 마우스 설계에서 사용하는 encoder 높이 규격을 가리킵니다.</p>
+    </div>
+    <div class="card">
+      <p class="fact">PRIMARY INPUT</p>
+      <h3>Left-click Switch</h3>
+      <p>상판 버튼의 변위를 내부 actuator가 받아 switch contact를 동작시키는 구조입니다. 버튼 감각은 switch 특성뿐 아니라 housing의 lever 형상과 조립 공차에도 영향을 받습니다.</p>
+    </div>
+    <div class="card">
+      <p class="fact">MECHANICAL</p>
+      <h3>Upper / Lower Housing</h3>
+      <p>외관 역할 외에도 버튼 지지, PCB 고정, wheel 위치 결정, side-button 전달 구조를 동시에 담당합니다. 내부 rib와 boss 위치가 조립 강성과 부품 위치 정밀도에 직접 연결됩니다.</p>
+    </div>
+    <div class="card">
+      <p class="fact">INTERFACE</p>
+      <h3>PCB &amp; Mounting</h3>
+      <p>switch와 encoder가 PCB에 실장되고, housing의 screw boss 및 guide 구조를 통해 정해진 위치에 고정됩니다. 전기 부품과 기구물의 상대 위치가 입력 감각과 신뢰성에 중요합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="section-head">What I Looked At</p>
+  <div class="grid">
+    <div class="card"><h3>부품 식별</h3><p>스크롤 wheel 주변 encoder, click switch, side switch와 주요 고정부를 구분했습니다.</p></div>
+    <div class="card"><h3>기구–전기 인터페이스</h3><p>사용자 입력이 housing을 통해 switch/encoder에 전달되고 PCB 신호로 이어지는 흐름을 확인했습니다.</p></div>
+    <div class="card"><h3>조립 구조</h3><p>rib, screw boss, PCB support와 wheel 지지 구조가 부품 위치를 어떻게 유지하는지 살펴봤습니다.</p></div>
+    <div class="card"><h3>문서화</h3><p>분해 사진과 부품 정보를 기반으로 구조를 다시 도식화해, 관찰 내용을 빠르게 이해할 수 있도록 정리했습니다.</p></div>
+  </div>
+  <div class="note">이 페이지의 도식은 구조 설명용 illustration입니다. 실제 부품 사진으로 오인되지 않도록 생성 이미지와 실물 사진을 구분해서 표기하는 방향으로 구성했습니다.</div>
+</section>
+
+<section>
+  <p class="section-head">Visual Asset</p>
+  <div class="todo"><strong>다음 교체 포인트:</strong> 현재 inline 구조 도식을, 이번에 만든 마우스 teardown 인포그래픽 파일로 교체하면 됩니다. 페이지 레이아웃은 이미 실제 이미지가 들어가도 깨지지 않도록 구성했습니다.</div>
+</section>
+</main>
+
+<footer><a href="../">&larr; Back to portfolio</a></footer>
+</div>
+</body>
+</html>
