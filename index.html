@@ -152,6 +152,50 @@
     .project-linked:hover .arrow, .project-linked:focus-visible .arrow{transform:none;}
   }
 
+
+  /* ---------- side projects ---------- */
+  .side-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+  .side-card{
+    display:block;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:18px 20px;
+    color:inherit;
+    text-decoration:none;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .side-card:hover,.side-card:focus-visible{
+    transform:translateY(-2px);
+    border-color:var(--accent-dim);
+    box-shadow:0 10px 24px -14px rgba(2,132,199,.35);
+  }
+  .side-card:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+  .side-top{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; margin-bottom:8px;
+  }
+  .side-card h3{font-size:.98rem; font-weight:600;}
+  .side-type{
+    flex-shrink:0;
+    font-family:var(--font-mono); font-size:.68rem; color:var(--muted);
+  }
+  .side-card p{font-size:.88rem; color:var(--text-dim);}
+  .side-card .specs{margin-top:12px;}
+  .side-card .detail-link{margin-top:12px;}
+  .side-intro{
+    margin-top:-8px; margin-bottom:18px;
+    color:var(--muted); font-size:.86rem; max-width:64ch;
+  }
+
+  @media (max-width:640px){
+    .side-grid{grid-template-columns:1fr;}
+  }
+
   /* ---------- skills ---------- */
   .skill-groups{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:24px 28px;}
   .skill-group h4{font-size:.82rem; color:var(--text-dim); font-weight:600; margin-bottom:10px;}
@@ -291,6 +335,24 @@
           <ul class="specs"><li>Python</li><li>PyQt</li><li>BSIM4 / SCS</li></ul>
         </article>
 
+      </div>
+    </section>
+
+
+    <section class="side-projects">
+      <p class="section-head">Side Projects</p>
+      <p class="side-intro">개인적으로 만든 도구, 작은 실험, 분해·분석 기록을 모아두는 공간입니다.</p>
+
+      <div class="side-grid">
+        <a class="side-card" href="projects/mouse-teardown.html">
+          <div class="side-top">
+            <h3>Mouse Hardware Teardown</h3>
+            <span class="side-type">Hardware · Teardown</span>
+          </div>
+          <p>상용 마우스를 분해해 scroll wheel, Kailh 11 mm rotary encoder, click switch와 내부 기구 구조를 부품 단위로 분석했습니다.</p>
+          <ul class="specs"><li>Kailh 11 mm</li><li>Encoder</li><li>Switch</li></ul>
+          <span class="detail-link">분석 보기 <span class="arrow">&rarr;</span></span>
+        </a>
       </div>
     </section>
 
